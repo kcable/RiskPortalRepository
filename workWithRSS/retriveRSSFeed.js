@@ -37,6 +37,11 @@ function extractItemData(items, correction) {
       //making text object
       title: e.querySelector('title').textContent,
       description: e.querySelector('description').textContent,
+      link: [
+        ...e
+          .querySelector('description')
+          .textContent.matchAll(/https:\/\/emergency.*"/g), // getting links from description tag
+      ],
       category: e.querySelector('category').textContent,
       guid: e.querySelector('guid').textContent,
       coordinates: e.children[e.childElementCount - correction].textContent,
@@ -48,8 +53,11 @@ function extractItemData(items, correction) {
 
 //testing code here
 // maybe get the feeds once per day ? and keep a copy locally not making a request every time someone makes a query to the server ?
+console.log('here');
 getFeeds().then((e) => {
   // this returns a promise
-  console.log(e.rapidActivationFeed);
-  console.log(e.riskAndRecoveryFeed);
+  console.log(e.rapidActivationFeed[0].link[0][0]);
+  console.log(e.riskAndRecoveryFeed[0].link[0][0]);
 });
+
+console.log('here2');
